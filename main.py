@@ -1,4 +1,4 @@
-# API REST: interfaz de Programación de Aplicaciones para compartir recursos
+ # API REST: interfaz de Programación de Aplicaciones para compartir recursos
 from typing import List, Optional
 import uuid
 from fastapi import FastAPI, HTTPException
@@ -15,7 +15,7 @@ class Curso(BaseModel):
     nivel: str
     duracion: int
 
-# Simulamos una base de datos
+# Simularemos una base de datos
 cursos_db = []
 
 # CRUD (ABM): Read (Lectura) usa el método GET ALL: leeremos todos los cursos que haya en la base de datos
@@ -24,7 +24,7 @@ cursos_db = []
 def obtener_cursos():
     return cursos_db
 
-# CRUD: Create (escribir) POST: agregaremos un nuevo recurso a n uestra base de datos
+# CRUD: Create (escribir) POST: agregaremos un nuevo recurso a nuestra base de datos
 @app.post("/cursos/",response_model=Curso) # Acá solo se agrega uno solo
 def crear_curso(curso: Curso):
     curso.id = str(uuid.uuid4()) # UUID genera un ID único e irrepetible 
@@ -36,7 +36,7 @@ def crear_curso(curso: Curso):
 def obtener_curso(curso_id:str):
     curso = next((curso for curso in cursos_db if curso.id == curso_id),None) # Con next tomamos la primera coincidencia del array devuelto
     if curso is None:
-        raise HTTPException(status_code=404,detail="Curso no encontrado")
+        raise HTTPException(status_code=404,detail="Curso no encontrado") # Raise corta la ejecución
     return curso
     
 # CRUD: Update (Actualización/Modificación) PUT: modificaremos un recurso que coincida con el ID que pidamos
@@ -50,7 +50,7 @@ def actualizar_curso(curso_id:str,curso_actualizado:Curso):
     cursos_db[index] = curso_actualizado
     return curso_actualizado
 
-# CRUD: Delete (Borrado/Baja): eliminaremos un recurso que coincida con el ID que mandemos
+# CRUD: Delete (Borrado/Baja) DELETE: eliminaremos un recurso que coincida con el ID que mandemos
 @app.delete("/cursos/{curso_id}",response_model=Curso)
 def eliminar_curso(curso_id:str):
     curso = next((curso for curso in cursos_db if curso.id == curso_id),None) # Con next tomamos la primera coincidencia del array devuelto
